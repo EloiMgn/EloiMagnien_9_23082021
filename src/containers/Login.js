@@ -35,10 +35,13 @@ export default class Login {
   handleSubmitAdmin = e => {
     const user = {
       type: "Admin",
-      email: e.target.querySelector(`input[data-testid="employee-email-input"]`).value,
-      password: e.target.querySelector(`input[data-testid="employee-password-input"]`).value,
+// correction querySelector => `input[data-testid="EMPLOYEE-email-input"]` === `input[data-testid="ADMIN-email-input"]`
+      email: e.target.querySelector(`input[data-testid="admin-email-input"]`).value,
+// correction querySelector => `input[data-testid="EMPLOYEE-password-input"]` === `input[data-testid="ADMIN-password-input"]`
+      password: e.target.querySelector(`input[data-testid="admin-password-input"]`).value,
       status: "connected"
     }
+    console.log(user);
     this.localStorage.setItem("user", JSON.stringify(user))
     const userExists = this.checkIfUserExists(user)
     if (!userExists) this.createUser(user)

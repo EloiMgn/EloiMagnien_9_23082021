@@ -25,7 +25,7 @@ Lancez l'application :
 $ live-server
 ```
 
-Puis allez à l'adresse : `http://127.0.0.1:8080/`
+Puis allez à l'adresse : `http://127.0.0.1:5501/`
 
 
 **Comment lancer tous les tests en local avec Jest :**
@@ -45,6 +45,6 @@ $jest src/__tests__/your_test_file.js
 
 **Comment voir la couverture de test :**
 
-`http://127.0.0.1:8080/coverage/lcov-report/`
+`http://127.0.0.1:5501/coverage/lcov-report/`
 
 
