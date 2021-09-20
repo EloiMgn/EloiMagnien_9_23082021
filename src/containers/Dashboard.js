@@ -32,7 +32,6 @@ export const card = (bill) => {
     firstAndLastNames.split('.')[0] : ''
   const lastName = firstAndLastNames.includes('.') ?
   firstAndLastNames.split('.')[1] : firstAndLastNames
-
   return (`
     <div class='bill-card' id='open-bill${bill.id}' data-testid='open-bill${bill.id}'>
       <div class='bill-card-name-container'>

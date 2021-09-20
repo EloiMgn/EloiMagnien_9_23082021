@@ -1,11 +1,13 @@
 export const formatDate = (dateStr) => {
-  const date = new Date(dateStr)
-  const ye = new Intl.DateTimeFormat('fr', { year: 'numeric' }).format(date)
-  const mo = new Intl.DateTimeFormat('fr', { month: 'short' }).format(date)
-  const da = new Intl.DateTimeFormat('fr', { day: '2-digit' }).format(date)
-  const month = mo.charAt(0).toUpperCase() + mo.slice(1)
-  // console.log(month);
-  return `${parseInt(da)} ${month.substr(0,3)}. ${ye.toString().substr(2,4)}`
+  // === ajout validation du format de la date pour éviter les bug du à de mauvaises entrées =====
+  if (dateStr.match(/\d{4}\-\d{2}\-\d{2}/gm)){
+    const date = new Date(dateStr)
+    const ye = new Intl.DateTimeFormat('fr', { year: 'numeric' }).format(date)
+    const mo = new Intl.DateTimeFormat('fr', { month: 'short' }).format(date)
+    const da = new Intl.DateTimeFormat('fr', { day: '2-digit' }).format(date)
+    const month = mo.charAt(0).toUpperCase() + mo.slice(1)
+    return `${parseInt(da)} ${month.substr(0,3)}. ${ye.toString().substr(2,4)}`
+  }
 }
  
 export const formatStatus = (status) => {
