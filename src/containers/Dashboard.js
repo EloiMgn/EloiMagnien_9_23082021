@@ -33,7 +33,7 @@ export const card = (bill) => {
   const lastName = firstAndLastNames.includes('.') ?
   firstAndLastNames.split('.')[1] : firstAndLastNames
 // ↓↓↓↓ ajout validation du format de la date pour éviter les bug dûs à de mauvaises entrées ↓↓↓↓
-  if (bill.date.match(/\d{4}\-\d{2}\-\d{2}/gm)){
+  if (bill.date.match(/\d{4}\-\d{2}\-\d{2}/gm) && bill.fileUrl !== null){
   return (`
     <div class='bill-card' id='open-bill${bill.id}' data-testid='open-bill${bill.id}'>
       <div class='bill-card-name-container'>
@@ -88,18 +88,28 @@ export default class {
   }
 
   handleEditTicket(e, bill, bills) {
-    console.log(bill);
+    console.log("this", this);
+    console.log("bill", bill);
     if (this.counter === undefined || this.id !== bill.id) this.counter = 0
     if (this.id === undefined || this.id !== bill.id) this.id = bill.id
     if (this.counter % 2 === 0) {
+      console.log("========");
+      console.log("sucess");
+      console.log("========");
       bills.forEach(b => {
         $(`#open-bill${b.id}`).css({ background: '#0D5AE5' })
       })
       $(`#open-bill${bill.id}`).css({ background: '#2A2B35' })
       $('.dashboard-right-container div').html(DashboardFormUI(bill))
       $('.vertical-navbar').css({ height: '150vh' })
+      console.log(this.counter);
+      // console.log(this.counter %2 );
       this.counter ++
+      // console.log(this.counter);
     } else {
+      console.log("========");
+      console.log("fail");
+      console.log("========");
       $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' })
 
       $('.dashboard-right-container div').html(`

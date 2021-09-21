@@ -20,6 +20,7 @@ export default class NewBill {
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
     const fileType = file.type
+    console.log(file.type);
       this.firestore
         .storage
         .ref(`justificatifs/${fileName}`)
@@ -35,6 +36,7 @@ export default class NewBill {
     e.preventDefault()
     // ==↓↓↓↓↓↓== ajout validation format image ===↓↓↓↓↓↓==
     if (this.fileType.includes("image")) {
+      // ajout tableau avec extension voulues 
       console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
       const email = JSON.parse(localStorage.getItem("user")).email
       const bill = {
