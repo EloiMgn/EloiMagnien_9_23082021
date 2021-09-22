@@ -19,8 +19,6 @@ export default class NewBill {
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
-    const fileType = file.type
-    console.log(file.type);
       this.firestore
         .storage
         .ref(`justificatifs/${fileName}`)
@@ -29,13 +27,12 @@ export default class NewBill {
         .then(url => {
           this.fileUrl = url
           this.fileName = fileName
-          this.fileType = fileType
         })
   }
   handleSubmit = e => {
     e.preventDefault()
     // ==↓↓↓↓↓↓== ajout validation format image ===↓↓↓↓↓↓==
-    if (this.fileType.includes("image")) {
+    // if (this.fileType.includes("image")) {
       // ajout tableau avec extension voulues 
       console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
       const email = JSON.parse(localStorage.getItem("user")).email
@@ -55,7 +52,7 @@ export default class NewBill {
       }
       this.createBill(bill)
       this.onNavigate(ROUTES_PATH['Bills'])
-    }
+    // }
   }
 
   // not need to cover this function by tests
