@@ -33,7 +33,7 @@ export const card = (bill) => {
   const lastName = firstAndLastNames.includes('.') ?
   firstAndLastNames.split('.')[1] : firstAndLastNames
 // ↓↓↓↓ ajout validation du format de la date pour éviter les bug dûs à de mauvaises entrées ↓↓↓↓
-  if (bill.date.match(/\d{4}\-\d{2}\-\d{2}/gm)){
+  if (bill.date.match(/\d{4}\-\d{2}\-\d{2}/gm) && bill.type !== null && bill.name !== "invalid"){
   return (`
     <div class='bill-card' id='open-bill${bill.id}' data-testid='open-bill${bill.id}'>
       <div class='bill-card-name-container'>

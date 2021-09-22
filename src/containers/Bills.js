@@ -1,7 +1,6 @@
 import { ROUTES_PATH } from '../constants/routes.js'
 import { formatDate, formatStatus } from "../app/format.js"
 import Logout from "./Logout.js"
-import months from './Dates.js'
 
 export default class {
   constructor({ document, onNavigate, firestore, localStorage }) {
@@ -64,7 +63,6 @@ export default class {
           // Delete bills with fileUrl not valid 
           .filter(bill => bill.fileUrl !== null)
 
-          console.log(bills);
           console.log('length', bills.length)
         return bills
       })
