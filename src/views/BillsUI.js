@@ -3,7 +3,7 @@ import ErrorPage from "./ErrorPage.js"
 import LoadingPage from "./LoadingPage.js"
 
 import Actions from './Actions.js'
-import { createDate, sortDates, updateMonth } from '../containers/Dates.js'
+import { createDate, sortDates, updateMonth, filterData } from '../app/utils.js'
 import { formatDate } from '../app/format.js'
 
 const row = (bill) => {
@@ -23,17 +23,21 @@ const row = (bill) => {
   }
 
 const rows = (data) => {
+  const filteredData = []
+  // Delete bills with date that don't match with the requested format and bills with files that don't match
+  filterData(data, filteredData)
   // ↓== modify month format short to long ===
-  updateMonth(data)
+  updateMonth(filteredData)
   // ↓== string to date ===
-  createDate(data)
+  createDate(filteredData)
   // ↓=== sort data by date value ===
-  sortDates(data)
+  sortDates(filteredData)
   // ↓== dates to original format ====
-  data.forEach(bill => {
+  filteredData.forEach(bill => {
    bill.date = formatDate(bill.date)
   })
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
+  console.log(filteredData);
+  return (filteredData && filteredData.length) ? filteredData.map(bill => row(bill)).join("") : ""
 
 }
 

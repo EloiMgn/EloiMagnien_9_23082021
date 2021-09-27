@@ -58,11 +58,6 @@ export default class {
             }
           })
           .filter(bill => bill.email === userEmail)
-          // Delete bills with date that don't match with the requested format 
-          .filter(bill => bill.date.match(/^\d{1,2}\s\w{3}\.\s\d{2}$/gmi) !== null)
-          // Delete bills with fileUrl not valid 
-          .filter(bill => bill.fileUrl !== null)
-
           console.log('length', bills.length)
         return bills
       })
