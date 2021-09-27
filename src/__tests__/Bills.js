@@ -8,6 +8,9 @@ describe("Given I am connected as an employee", () => {
       const html = BillsUI({ data: []})
       document.body.innerHTML = html
       //to-do write expect expression
+      // const icon = screen.getByTestId("icon-window")
+      // get icon background color Style
+      // compare w/ requestedStyle value
     })
     test("Then bills should be ordered from earliest to latest", () => {
       const html = BillsUI({ data: bills })

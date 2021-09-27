@@ -3,7 +3,7 @@ import ErrorPage from "./ErrorPage.js"
 import LoadingPage from "./LoadingPage.js"
 
 import Actions from './Actions.js'
-import { createDate, sortDates, updateMonth, filterData } from '../app/utils.js'
+import { createDate, sortDates, monthToLong, monthToShort } from '../app/utils.js'
 import { formatDate } from '../app/format.js'
 
 const row = (bill) => {
@@ -23,26 +23,26 @@ const row = (bill) => {
   }
 
 const rows = (data) => {
-  const filteredData = []
-  // Delete bills with date that don't match with the requested format and bills with files that don't match
-  filterData(data, filteredData)
+  // const icon = document.getElementById("layout-icon1")
+  // const style = window.getComputedStyle(icon)
+  // console.log(style.backgroundColor);
+
   // ↓== modify month format short to long ===
-  updateMonth(filteredData)
-  // ↓== string to date ===
-  createDate(filteredData)
+  monthToLong(data)
+  // // ↓== string to date ===
+  // createDate(data)
+  // console.log(data);
   // ↓=== sort data by date value ===
-  sortDates(filteredData)
+  sortDates(data)
   // ↓== dates to original format ====
-  filteredData.forEach(bill => {
-   bill.date = formatDate(bill.date)
-  })
-  console.log(filteredData);
-  return (filteredData && filteredData.length) ? filteredData.map(bill => row(bill)).join("") : ""
+  monthToShort(data)
+
+  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
 
 }
 
 export default ({ data: bills, loading, error }) => {
-  
+
   const modal = () => (`
     <div class="modal fade" id="modaleFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

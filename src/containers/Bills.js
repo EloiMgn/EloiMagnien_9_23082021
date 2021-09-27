@@ -1,6 +1,7 @@
 import { ROUTES_PATH } from '../constants/routes.js'
 import { formatDate, formatStatus } from "../app/format.js"
 import Logout from "./Logout.js"
+import { filterByFileFormat } from '../app/utils.js'
 
 export default class {
   constructor({ document, onNavigate, firestore, localStorage }) {
@@ -49,7 +50,7 @@ export default class {
             } catch(e) {
               // if for some reason, corrupted data was introduced, we manage here failing formatDate function
               // log the error and return unformatted date in that case
-              console.log(e,'for',doc.data())
+              // console.log(e,'for',doc.data())
               return {
                 ...doc.data(),
                 date: doc.data().date,
@@ -58,6 +59,10 @@ export default class {
             }
           })
           .filter(bill => bill.email === userEmail)
+          // === filter bills that bills.date doesn't match with requested date format ===
+          .filter(bill => bill.date.match(/^\d{1,2}\s\w{3}\.\s\d{2}$/gmi) !== null)
+          // === filter bills that bill file fromat doesn't match with requested format ===
+          .filter(bill => filterByFileFormat(bill))
           console.log('length', bills.length)
         return bills
       })
