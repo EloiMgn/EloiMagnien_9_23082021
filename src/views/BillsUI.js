@@ -25,7 +25,7 @@ const rows = (data) => {
   // const icon = document.getElementById("layout-icon1")
   // const style = window.getComputedStyle(icon)
   // console.log(style.backgroundColor);
-
+console.log("data", data);
   // ↓== modify month format short to long ===
   monthToLong(data)
   // // ↓== string to date ===
