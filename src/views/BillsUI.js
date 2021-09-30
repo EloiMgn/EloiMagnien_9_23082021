@@ -21,22 +21,16 @@ const row = (bill) => {
     `)
   }
 
-const rows = (data) => {
-  // const icon = document.getElementById("layout-icon1")
-  // const style = window.getComputedStyle(icon)
-  // console.log(style.backgroundColor);
-console.log("data", data);
-  // ↓== modify month format short to long ===
-  monthToLong(data)
-  // // ↓== string to date ===
-  // createDate(data)
-  // console.log(data);
-  // ↓=== sort data by date value ===
-  sortDates(data)
-  // ↓== dates to original format ====
-  monthToShort(data)
-
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
+ const rows = (data) => {
+   if (data) {
+     // ↓== modify month format short to long ===
+     monthToLong(data)
+     // ↓=== sort data by date value ===
+     sortDates(data)
+     // ↓== dates to original format ====
+     monthToShort(data)
+    }
+     return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
 }
 
 export default ({ data: bills, loading, error }) => {
