@@ -1,14 +1,25 @@
 import { screen } from "@testing-library/dom"
 import BillsUI from "../views/BillsUI.js"
 import { bills } from "../fixtures/bills.js"
+import Bills from '../containers/Bills.js'
+import { ROUTES } from "../constants/routes"
+import userEvent from "@testing-library/user-event"
+import { localStorageMock } from "../__mocks__/localStorage.js"
+
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
     test("Then bill icon in vertical layout should be highlighted", () => {
-      const html = BillsUI({ data: []})
+      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+      window.localStorage.setItem('user', JSON.stringify({
+        type: 'Employee'
+      }))
+      const html = BillsUI({ data: bills})
       document.body.innerHTML = html
+      const icon = screen.getByTestId("icon-window")
+      const style = getComputedStyle(icon)
+      console.log(style.backgroundColor);
       //to-do write expect expression
-      // const icon = screen.getByTestId("icon-window")
       // get icon background color Style
       // compare w/ requestedStyle value
     })
@@ -23,3 +34,25 @@ describe("Given I am connected as an employee", () => {
   })
 })
 
+describe('Given I am connected', () => {
+  describe('When I click on disconnect button', () => {
+    test(('Then I should be sent to login page'), () => {
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
+      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+      window.localStorage.setItem('user', JSON.stringify({
+        type: 'Employee'
+      }))
+      const html = BillsUI({ data: bills })
+      document.body.innerHTML = html
+      const bill = new Bills({ document, onNavigate, localStorage })
+      const handleClick = jest.fn(bill.handleClick)
+      const btnNewBill = screen.getByTestId("btn-new-bill")
+      btnNewBill.addEventListener('click', handleClick)
+      userEvent.click(btnNewBill)
+      expect(handleClick).toHaveBeenCalled()
+      expect(screen.getByText('Envoyer une note de frais')).toBeTruthy()
+    })
+  })
+})
