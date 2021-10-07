@@ -5,6 +5,9 @@ import Bills from '../containers/Bills.js'
 import { ROUTES } from "../constants/routes"
 import userEvent from "@testing-library/user-event"
 import { localStorageMock } from "../__mocks__/localStorage.js"
+import LoadingPage from "../views/LoadingPage.js"
+
+
 
 
 describe("Given I am connected as an employee", () => {
@@ -18,7 +21,6 @@ describe("Given I am connected as an employee", () => {
       document.body.innerHTML = html
       const icon = screen.getByTestId("icon-window")
       const style = getComputedStyle(icon)
-      console.log(style.backgroundColor);
       //to-do write expect expression
       // get icon background color Style
       // compare w/ requestedStyle value
@@ -32,27 +34,78 @@ describe("Given I am connected as an employee", () => {
       expect(dates).toEqual(datesSorted)
     })
   })
+  describe("Bills page is loading", () => {
+    test("Then it should renders loading page", () => {
+      const loading = 'loading'
+      const html = BillsUI({ loading })
+      document.body.innerHTML = html
+      expect(screen.getByText('Loading...')).toBeTruthy()
+    })
+  })
+  describe("An Error occured", () => {
+    test("Then it should renders Error page", () => {
+      const error = 'error'
+      const html = BillsUI({ error })
+      document.body.innerHTML = html
+      expect(screen.getByText('Erreur')).toBeTruthy()
+    })
+  })
 })
 
-describe('Given I am connected', () => {
-  describe('When I click on disconnect button', () => {
-    test(('Then I should be sent to login page'), () => {
+
+describe('Given I am on bills page', () => {
+  describe('When I click on New Bill button', () => {
+    test(('Then I should be sent to New bill page'), () => {
+
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
       }
+
       Object.defineProperty(window, 'localStorage', { value: localStorageMock })
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Employee'
       }))
+
+      const html = BillsUI({ data: bills })
+      document.body.innerHTML = html
+
+      const bill = new Bills({ document, onNavigate, localStorage })
+      const handleClick = jest.fn(bill.handleClickNewBill)
+      const btnNewBill = screen.getByTestId("btn-new-bill")
+
+      btnNewBill.addEventListener('click', handleClick)
+      userEvent.click(btnNewBill)
+      
+      expect(handleClick).toHaveBeenCalled()
+      expect(screen.getByText('Envoyer une note de frais')).toBeTruthy()
+    })
+  })
+
+  describe('When I click on eye icon', () => {
+    test(('Then it should renders modal'), () => {
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
+
+      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+      window.localStorage.setItem('user', JSON.stringify({
+        type: 'Employee'
+      }))
+
       const html = BillsUI({ data: bills })
       document.body.innerHTML = html
       const bill = new Bills({ document, onNavigate, localStorage })
-      const handleClick = jest.fn(bill.handleClick)
-      const btnNewBill = screen.getByTestId("btn-new-bill")
-      btnNewBill.addEventListener('click', handleClick)
-      userEvent.click(btnNewBill)
-      expect(handleClick).toHaveBeenCalled()
-      expect(screen.getByText('Envoyer une note de frais')).toBeTruthy()
+
+      const iconEyes = screen.getAllByTestId("icon-eye")
+
+     if (iconEyes) iconEyes.forEach(icon => {
+
+      const handleClick = jest.fn((e) => bill.handleClickIconEye(icon))
+        icon.addEventListener('click', handleClick(icon))
+        userEvent.click(icon)
+        expect(handleClick).toHaveBeenCalled()
+      })
+      expect(screen.getByText('Justificatif')).toBeTruthy()
     })
   })
 })

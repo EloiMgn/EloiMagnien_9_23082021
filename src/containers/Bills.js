@@ -60,18 +60,12 @@ export default class {
           .filter(bill => bill.email === userEmail)
           // === filter bills that bills.date doesn't match with requested date format ===
           .filter(bill => bill.date.match(/^\d{1,2}\s\w{3}\.\s\d{2}$/gmi) !== null)
-          // === filter bills that bill file fromat doesn't match with requested format ===
+          // === filter bills that bill file format doesn't match with requested format ===
           .filter(bill => filterByFileFormat(bill))
-          console.log('length', bills.length)
+          // console.log('length', bills.length)
         return bills
       })
       .catch(error => error)
     }
   }
 }
-// string.match
-// Regex date: /^\d{1,2}\s\w{3}\.\s\d{2}$/gmi
-
-// bill.date.match(regex) !== null;
-
-// verifier doc match

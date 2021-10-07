@@ -20,7 +20,6 @@ export default class NewBill {
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
     const fileType = file.type
-    console.log(fileType);
       this.firestore
         .storage
         .ref(`justificatifs/${fileName}`)
