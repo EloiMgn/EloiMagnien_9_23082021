@@ -10,6 +10,7 @@ export default class NewBill {
     const formNewBill = this.document.querySelector(`form[data-testid="form-new-bill"]`)
     formNewBill.addEventListener("submit", this.handleSubmit)
     const file = this.document.querySelector(`input[data-testid="file"]`)
+
     file.addEventListener("change", this.handleChangeFile)
     this.fileUrl = null
     this.fileName = null
@@ -35,7 +36,13 @@ export default class NewBill {
     e.preventDefault()
     // ==↓↓↓↓↓↓== ajout validation format image ===↓↓↓↓↓↓==
     if (this.fileType.includes("jpeg") || this.fileType.includes("png") || this.fileType.includes("jpg")) {
-      console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
+      const input = document.querySelector(`input[data-testid="file"]`)
+      input.classList.remove('red-border')
+      input.classList.add('blue-border')
+      const errorText = document.getElementById(`errorFormat`)
+      errorText.classList.add('hidden')
+      input.classList.remove('red-border')
+      input.classList.add('blue-border')
       const email = JSON.parse(localStorage.getItem("user")).email
       const bill = {
         email,
@@ -53,6 +60,12 @@ export default class NewBill {
       }
       this.createBill(bill)
       this.onNavigate(ROUTES_PATH['Bills'])
+    } else {
+      const input = document.querySelector(`input[data-testid="file"]`)
+      input.classList.remove('blue-border')
+      input.classList.add('red-border')
+      const errorText = document.getElementById(`errorFormat`)
+      errorText.classList.remove('hidden')
     }
   }
 

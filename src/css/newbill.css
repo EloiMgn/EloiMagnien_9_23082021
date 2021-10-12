@@ -61,3 +61,22 @@ textarea:focus, input:focus, select:focus {
 *[placeholder] {
   color: #0E5AE5 !important;
 }
+
+.red-border {
+  opacity: 0.5;
+  border: 2px solid red !important;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.hidden {
+  display: none;
+}
+
+#errorFormat {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: red;
+}
