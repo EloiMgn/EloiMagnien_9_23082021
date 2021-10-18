@@ -7,6 +7,7 @@ import Bills from '../containers/Bills.js'
 import userEvent from "@testing-library/user-event"
 
 import NewBill from "../containers/NewBill.js"
+import { ROUTES } from "../constants/routes.js"
 
 
 describe("Given I am on NewBill page", () => {
@@ -64,10 +65,17 @@ describe("Given I am on NewBill page", () => {
       fireEvent.change(expenseCommentary, { target: { value: "Test Commentary" } })
       expect(expenseCommentary.value).toBe("Test Commentary")
 
+      const file = new File(['okokokok'], '20456790.jpg', { type: 'image/jpeg' })
       const expenseFile = screen.getByTestId("file")
-      fireEvent.change(expenseFile, { target: { value: "../assets/images/facturefreemobile.jpg" } })
-      expect(expenseFile.value).toBe("../assets/images/facturefreemobile.jpg")
 
+      Object.defineProperty(expenseFile, 'files', {
+        value: [file]
+      })
+
+      fireEvent.change(expenseFile)
+
+      expect(expenseFile.files[0].name).toBe("20456790.jpg")
+  
       const form = screen.getByTestId("form-new-bill")
 
       Object.defineProperty(window, 'localStorage', { value: localStorageMock })
@@ -92,6 +100,3 @@ describe("Given I am on NewBill page", () => {
     })
   })
 })
-
-
-
