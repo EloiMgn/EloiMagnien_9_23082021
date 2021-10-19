@@ -1,10 +1,6 @@
 import { fireEvent, screen } from "@testing-library/dom"
 import NewBillUI from "../views/NewBillUI.js"
 import { localStorageMock } from "../__mocks__/localStorage.js"
-import BillsUI from "../views/BillsUI.js"
-import { bills } from "../fixtures/bills.js"
-import Bills from '../containers/Bills.js'
-import userEvent from "@testing-library/user-event"
 
 import NewBill from "../containers/NewBill.js"
 import { ROUTES } from "../constants/routes.js"
@@ -41,6 +37,32 @@ describe("Given I am on NewBill page", () => {
       const html = NewBillUI()
       document.body.innerHTML = html
 
+      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+      window.localStorage.setItem('user', JSON.stringify({
+        type: 'Employee'
+      }))
+
+    // localStorage should be populated with form data
+    Object.defineProperty(window, "localStorage", {
+      value: {
+        getItem: jest.fn(() => null),
+        setItem: jest.fn(() => null)
+      },
+      writable: true
+    })
+
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
+
+      const firebase = jest.fn()
+
+      const newbill = new NewBill({
+        document,
+        onNavigate,
+        firebase
+      })
+
       const expenseName = screen.getByTestId("expense-name")
       fireEvent.change(expenseName, { target: { value: "Test Expense" } })
       expect(expenseName.value).toBe("Test Expense")
@@ -65,34 +87,28 @@ describe("Given I am on NewBill page", () => {
       fireEvent.change(expenseCommentary, { target: { value: "Test Commentary" } })
       expect(expenseCommentary.value).toBe("Test Commentary")
 
+
       const file = new File(['okokokok'], '20456790.jpg', { type: 'image/jpeg' })
       const expenseFile = screen.getByTestId("file")
 
       Object.defineProperty(expenseFile, 'files', {
         value: [file]
       })
+      const handleChangeFile = jest.fn(newbill.handleChangeFile)  
 
+      expenseFile.addEventListener('change', handleChangeFile)
       fireEvent.change(expenseFile)
 
+      expect(handleChangeFile).toHaveBeenCalled()
       expect(expenseFile.files[0].name).toBe("20456790.jpg")
   
       const form = screen.getByTestId("form-new-bill")
 
-      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-      window.localStorage.setItem('user', JSON.stringify({
-        type: 'Employee'
-      }))
-
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({ pathname })
-      }
-  
-      const newBill = new NewBill({ document, onNavigate, localStorage })
-
-      const handleSubmit = jest.fn(newBill.handleSubmit)  
+      const handleSubmit = jest.fn(newbill.handleSubmit)  
 
       form.addEventListener("submit", handleSubmit)
       fireEvent.submit(form)
+
       expect(handleSubmit).toHaveBeenCalled()
     })
     test("It should renders Bills page", () => {

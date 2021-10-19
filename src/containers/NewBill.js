@@ -36,42 +36,40 @@ export default class NewBill {
   handleSubmit = e => {
     e.preventDefault()
     // ==↓↓↓↓↓↓== ajout validation format image ===↓↓↓↓↓↓==
-
-    // if (this.fileType.includes("jpeg") || this.fileType.includes("png") || this.fileType.includes("jpg")) {
-      const input = document.querySelector(`input[data-testid="file"]`)
-      // console.log(input.classList);
-      // input.classList.remove('red-border')
-      // input.classList.add('blue-border')
-      // const errorText = document.getElementById(`errorFormat`)
-      // errorText.classList.add('hidden')
-      // input.classList.remove('red-border')
-      // input.classList.add('blue-border')
-      const email = JSON.parse(localStorage.getItem("user")).email
-      const bill = {
-        email,
-        type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
-        name:  e.target.querySelector(`input[data-testid="expense-name"]`).value,
-        amount: parseInt(e.target.querySelector(`input[data-testid="amount"]`).value),
-        date:  e.target.querySelector(`input[data-testid="datepicker"]`).value,
-        vat: e.target.querySelector(`input[data-testid="vat"]`).value,
-        pct: parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) || 20,
-        commentary: e.target.querySelector(`textarea[data-testid="commentary"]`).value,
-        fileUrl: this.fileUrl,
-        fileName: this.fileName,
-        fileType: this.fileType,
-        status: 'pending'
-      }
-      this.createBill(bill)
-      this.onNavigate(ROUTES_PATH['Bills'])
-      
-    // } else {
-    //   const input = document.querySelector(`input[data-testid="file"]`)
-    //   input.classList.remove('blue-border')
-    //   input.classList.add('red-border')
-    //   const errorText = document.getElementById(`errorFormat`)
-    //   errorText.classList.remove('hidden')
-    // }
+  if (this.fileType.includes("jpeg") || this.fileType.includes("png") || this.fileType.includes("jpg")) {
+    const input = document.querySelector(`input[data-testid="file"]`)
+    input.classList.remove('red-border')
+    input.classList.add('blue-border')
+    const errorText = document.getElementById(`errorFormat`)
+    errorText.classList.add('hidden')
+    input.classList.remove('red-border')
+    input.classList.add('blue-border')
+    const email = JSON.parse(localStorage.getItem("user")).email
+    const bill = {
+      email,
+      type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
+      name:  e.target.querySelector(`input[data-testid="expense-name"]`).value,
+      amount: parseInt(e.target.querySelector(`input[data-testid="amount"]`).value),
+      date:  e.target.querySelector(`input[data-testid="datepicker"]`).value,
+      vat: e.target.querySelector(`input[data-testid="vat"]`).value,
+      pct: parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) || 20,
+      commentary: e.target.querySelector(`textarea[data-testid="commentary"]`).value,
+      fileUrl: this.fileUrl,
+      fileName: this.fileName,
+      fileType: this.fileType,
+      status: 'pending'
+    }
+    this.createBill(bill)
+    this.onNavigate(ROUTES_PATH['Bills'])
+    
+  } else {
+    const input = document.querySelector(`input[data-testid="file"]`)
+    input.classList.remove('blue-border')
+    input.classList.add('red-border')
+    const errorText = document.getElementById(`errorFormat`)
+    errorText.classList.remove('hidden')
   }
+}
 
   // not need to cover this function by tests
   createBill = (bill) => {
