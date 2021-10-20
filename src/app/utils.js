@@ -70,3 +70,23 @@ export const filterByFileFormat = bill => {
       }
     }
 }
+
+export const handleError = () => {
+  const input = document.querySelector(`input[data-testid="file"]`)
+  input.classList.remove('blue-border')
+  input.classList.add('red-border')
+  const errorText = document.querySelector(`p[data-testid="errorFormat"]`)
+  errorText.classList.remove('hidden')
+  errorText.classList.add('redText')
+}
+
+export const handleResult = () => {
+  const input = document.querySelector(`input[data-testid="file"]`)
+  input.classList.remove('red-border')
+  input.classList.add('blue-border')
+  const errorText = document.querySelector(`p[data-testid="errorFormat"]`)
+  errorText.classList.add('hidden')
+  errorText.classList.remove('redText')
+  input.classList.remove('red-border')
+  input.classList.add('blue-border')
+}

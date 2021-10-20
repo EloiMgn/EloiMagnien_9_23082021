@@ -73,7 +73,7 @@ textarea:focus, input:focus, select:focus {
   display: none;
 }
 
-#errorFormat {
+p {
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
