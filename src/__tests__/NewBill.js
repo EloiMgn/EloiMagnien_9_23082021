@@ -244,7 +244,7 @@ describe("test POST method NewBill", () => {
       expect(bills.data.length).toBe(1)
       expect(bills.data[0]).toEqual(param)
   })
-  test.only("it should return null when pass wrong param", async () => {
+  test("it should return null when pass wrong param", async () => {
     const param = [243, "string", [1, 2, 3]]
       const postSpy = jest.spyOn(firebase, "post")
       for (let i = 0; i < param.length; i++) {

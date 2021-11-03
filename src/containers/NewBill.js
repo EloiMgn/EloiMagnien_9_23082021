@@ -32,6 +32,7 @@ export default class NewBill {
         .then(url => {
           this.fileUrl = url
           this.fileName = fileName
+          this.fileType = fileType
         })
       }
   }
@@ -40,7 +41,6 @@ export default class NewBill {
     e.preventDefault()
     // ==↓↓↓↓↓↓== ajout validation format image ===↓↓↓↓↓↓==
     if (this.fileType) {
-
       if (this.fileType.includes("jpeg") || this.fileType.includes("png") || this.fileType.includes("jpg")) {
         const email = JSON.parse(localStorage.getItem("user")).email
         const bill = {
