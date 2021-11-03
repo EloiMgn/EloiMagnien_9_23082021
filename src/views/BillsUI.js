@@ -3,9 +3,9 @@ import ErrorPage from "./ErrorPage.js"
 import LoadingPage from "./LoadingPage.js"
 
 import Actions from './Actions.js'
+import { sortDates, monthToLong, monthToShort } from '../app/utils.js'
 
 const row = (bill) => {
-  // console.log(bill);
   return (`
     <tr>
       <td>${bill.type}</td>
@@ -20,13 +20,19 @@ const row = (bill) => {
     `)
   }
 
-const rows = (data) => {
-  // console.log(data);
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
+ const rows = (data) => {
+   if (data) {
+     // ↓== modify month format short to long ===
+     monthToLong(data)
+     // ↓=== sort data by date value ===
+     sortDates(data)
+     // ↓== dates to original format ====
+     monthToShort(data)
+    }
+     return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
 }
 
 export default ({ data: bills, loading, error }) => {
-  
   const modal = () => (`
     <div class="modal fade" id="modaleFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

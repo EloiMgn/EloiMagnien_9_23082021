@@ -61,28 +61,3 @@ export const months = [
   },
 ]
 
-export const updateMonth = (data) => {
-  data.forEach(bill => {
-   const date = bill.date.split(' ')
-   for (let i = 0; i < months.length; i++) {
-     if (date[1] === months[i].shortName) {
-       date.splice(1, 1, date[1].replace(`${date[1]}`, `${months[i].longName}`))
-       const newDate = date.toString().replaceAll(',', ' ')
-       bill.date = newDate
-      } 
-    }
-  });
-}
-
-export const createDate = (data) => {
-  data.forEach (bill => {
-    bill.date = new Date(bill.date)
-  })
-}
-
-export const sortDates = (data) => {
-  const sortedData = data.sort(function(a,b) {
-      return new Date(b.date) - new Date(a.date);
-    });
-    return sortedData
-}

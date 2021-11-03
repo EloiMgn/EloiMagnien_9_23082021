@@ -11,6 +11,7 @@ export const ROUTES_PATH = {
 }
 
 export const ROUTES = ({ pathname, data, error, loading }) => {
+
   switch (pathname) {
     case ROUTES_PATH['Login']:
       return LoginUI({ data, error, loading })

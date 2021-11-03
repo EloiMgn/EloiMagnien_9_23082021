@@ -75,7 +75,6 @@ describe("Given that I am a user on login page", () => {
     const onNavigate = (pathname) => {
       document.body.innerHTML = ROUTES({ pathname })
     }
-
     let PREVIOUS_LOCATION = ''
 
     const firebase = jest.fn()
