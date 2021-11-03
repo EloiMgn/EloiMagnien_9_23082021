@@ -219,34 +219,41 @@ describe("Given I am on NewBill page", () => {
   }) 
 })
 
-// // test d'intégration POST
-// describe("Given I am a user connected as Employee", () => {
-//   describe("When I navigate to Bills", () => {
-//     test("fetches bills from mock API GET", async () => {
-//        const getSpy = jest.spyOn(firebase, "get")
-//        const bills = await firebase.get()
-//        expect(getSpy).toHaveBeenCalledTimes(1)
-//        expect(bills.data.length).toBe(4)
-//     })
-//     test("fetches bills from an API and fails with 404 message error", async () => {
-//       firebase.get.mockImplementationOnce(() =>
-//         Promise.reject(new Error("Erreur 404"))
-//       )
-//       const html = BillsUI({ error: "Erreur 404" })
-//       document.body.innerHTML = html
-//       const message = await screen.getByText(/Erreur 404/)
-//       expect(message).toBeTruthy()
-//     })
-//     test("fetches messages from an API and fails with 500 message error", async () => {
-//       firebase.get.mockImplementationOnce(() =>
-//         Promise.reject(new Error("Erreur 500"))
-//       )
-//       const html = BillsUI({ error: "Erreur 500" })
-//       document.body.innerHTML = html
-//       const message = await screen.getByText(/Erreur 500/)
-//       expect(message).toBeTruthy()
-//     })
-//   })
-// })
+
+// test d'intégration POST
+describe("test POST method NewBill", () => {
+  test("it should return array of bills when pass good param", async () => {
+    const param = {
+      "id": "qcCK3SzECmaZAGRrHjaC",
+      "status": "refused",
+      "pct": 20,
+      "amount": 200,
+      "email": "a@a",
+      "name": "test2",
+      "vat": "40",
+      "fileName": "preview-facture-free-201801-pdf-1.jpg",
+      "date": "2002-02-02",
+      "commentAdmin": "pas la bonne facture",
+      "commentary": "test2",
+      "type": "Restaurants et bars",
+      "fileUrl": "https://firebasestorage.googleapis.com/v0/b/billable-677b6.a…f-1.jpg?alt=media&token=4df6ed2c-12c8-42a2-b013-346c1346f732"
+    }
+      const postSpy = jest.spyOn(firebase, "post")
+      const bills = await firebase.post(param)
+      expect(postSpy).toHaveBeenCalledTimes(1)
+      expect(bills.data.length).toBe(1)
+      expect(bills.data[0]).toEqual(param)
+  })
+  test.only("it should return null when pass wrong param", async () => {
+    const param = [243, "string", [1, 2, 3]]
+      const postSpy = jest.spyOn(firebase, "post")
+      for (let i = 0; i < param.length; i++) {
+        const el = param[i];
+        const bills = await firebase.post(el)
+        expect(bills.data).toBeNull()
+      }
+  })
+})
+
 
 
