@@ -65,6 +65,7 @@ export default class {
           .filter(bill => filterByFileFormat(bill))
         return bills
       })
+      // lollo
       .catch(error => error)
     }
   }
